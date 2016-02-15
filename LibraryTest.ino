@@ -17,6 +17,17 @@ void setup() {
 
 void loop() {
 
+    controller.chooseInstrument(1);
+
+    controller.playtone_milis(1, 30, 120);
+
+    controller.refresh();
+
+    delay(10000);
+
+
+
+    /*
     controller.chooseInstrument(65);
     controller.startTone(60, 127);
 
@@ -24,5 +35,6 @@ void loop() {
 
     controller.endTone(60, 127);
     delay(1000);
+     */
 
 }

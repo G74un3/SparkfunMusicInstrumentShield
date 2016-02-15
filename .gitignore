@@ -3,4 +3,4 @@ build*
 CMakeLists.txt
 Makefile
 Makefile~
-
+.idea

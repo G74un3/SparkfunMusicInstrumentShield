@@ -1,2 +1,6 @@
 build*
 *.hex
+CMakeLists.txt
+Makefile
+Makefile~
+

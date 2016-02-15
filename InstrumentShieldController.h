@@ -23,12 +23,11 @@ public:
 
     struct Tone {
 
+        int ID;
         unsigned long timeStamp;
         double deadlineMillis;
         int velocity;
         int note;
-        int x;
-
     };
 
     InstrumentShieldController();
@@ -36,24 +35,34 @@ public:
 
     void talkMIDI(byte cmd, byte data1, byte data2);
 
-    void chooseInstrument(int instrumentnumber);
+    void chooseInstrument(byte instrumentnumber);
 
     void chooseBank(ToneBank bank);
 
-    void startTone(int pitch, int velocity);
+    void startTone(byte note, byte velocity);
 
-    void endTone(int pitch, int velocity);
+    void endTone(byte note, byte velocity);
 
-    void playtone_milis(int miliseconds, int pitch, int velocity);
+    void playtone_milis(int miliseconds, byte note, byte velocity);
 
-    void playtone_seconds(int seconds, int pitch, int velocity);
+    void playtone_seconds(int seconds, byte note, byte velocity);
 
     void start();
+
+    void refresh();
 
 private:
     void noteOn(byte channel, byte note, byte attack_velocity);
 
     void noteOff(byte channel, byte note, byte release_velocity);
+
+    bool insertToneInArray(Tone tone);
+
+    int findFirstAvailableIndex();
+
+
+    //  extern const Tone *currentlyPlaying[MAXTONES];
+
 
 
 
