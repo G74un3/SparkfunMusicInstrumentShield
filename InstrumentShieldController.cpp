@@ -14,6 +14,9 @@
 
 #define resetMIDI 4
 #define ledPin 13
+#define GM1 0
+#define GM2 1
+
 
 int _ID = 0;
 
