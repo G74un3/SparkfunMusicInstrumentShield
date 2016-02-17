@@ -19,9 +19,6 @@ int _ID = 0;
 
 SoftwareSerial _shield(2, 3);
 
-InstrumentShieldController::Tone *tones[MAXTONES];
-
-
 InstrumentShieldController::InstrumentShieldController() {
 
 
@@ -47,7 +44,7 @@ void InstrumentShieldController::start() {
  * GM1: is the main bank of melodic instruments
  * GM2: is the percussion bank
  */
-void InstrumentShieldController::chooseBank(ToneBank bank) {
+void InstrumentShieldController::chooseBank(int bank) {
 
     switch (bank) {
         case 0:
