@@ -23,7 +23,7 @@ void loop() {
 
     controller.refresh();
 
-    delay(10000);
+    delay(2000);
 
 
 

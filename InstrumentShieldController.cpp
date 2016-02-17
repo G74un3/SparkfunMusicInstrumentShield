@@ -14,13 +14,12 @@
 
 #define resetMIDI 4
 #define ledPin 13
-#define MAXTONES 2 //used for autostop of tones in the playTone methods. More tones means more memory used!
 
 int _ID = 0;
 
 SoftwareSerial _shield(2, 3);
 
-const InstrumentShieldController::Tone *tones[MAXTONES];
+InstrumentShieldController::Tone *tones[MAXTONES];
 
 
 InstrumentShieldController::InstrumentShieldController() {
@@ -89,133 +88,6 @@ void InstrumentShieldController::endTone(byte note, byte velocity) {
 }
 
 
-/**
- ** Plays the tone in question for a given number of seconds. Max number of concurrent tones can be set by MAXTONES in the top.
- * requires that refresh is called minimum every millisecond
- * @param note from F#-0 (30) to F#-5 (90):
- */
-void InstrumentShieldController::playtone_seconds(int seconds, byte note, byte velocity) {
-
-    playtone_milis(seconds * 1000, note, velocity);
-
-}
-
-/**
- ** Plays the tone in question for a given number of milli. Max number of concurrent tones can be set by MAXTONES in the top.
- * requires that refresh is called minimum every millisecond
- * @param note from F#-0 (30) to F#-5 (90):
- */
-void InstrumentShieldController::playtone_milis(int milliseconds, byte note, byte velocity) {
-
-    if (note > 128 && velocity > 128) return;
-
-    Tone tone = {_ID, millis(), milliseconds, velocity, note}; // make new tone object
-    _ID++;
-
-
-
-
-    bool success = insertToneInArray(tone);
-
-
-    tone = *tones[0];
-
-    Serial.println("PLADS 0 : :: : :: :: : :: : :: ");
-    Serial.print("ID: ");
-    Serial.println(tone.ID);
-    Serial.print("NOTE: ");
-    Serial.println(tone.note);
-    Serial.print("VELOCITY: ");
-    Serial.println(tone.velocity);
-
-
-    if(success) {
-
-        startTone(note, velocity); // start playing tone
-
-    }
-
-}
-
-/**
- * Places the tone in the array
- */
-bool InstrumentShieldController::insertToneInArray(Tone tone) {
-
-    int index = findFirstAvailableIndex();
-
-    Serial.print("index: ");
-    Serial.println(index);
-
-    if(index >= 0 ) {
-
-        tones[index] = &tone; // save a reference to the pointer to tone so we can find it again and kill it in time
-
-        return true;
-
-    }
-
-    return false;
-
-}
-
-/**
- * Finds the first empty slot int the currentPlaying array
- * Returns -1 if no empty place is found
- */
-int InstrumentShieldController::findFirstAvailableIndex() {
-
-
-    for (int i = 0; i < MAXTONES; i++) {
-
-        if (tones[i]) { // the pointer is not null and therefore the place in the array is full
-
-        } else { // There is an empty place
-
-            return i; // we found it
-        }
-    }
-
-    return -1; // Array completely full
-
-}
-
-/**
- * Looks throiugh all playing tones and ends those that are not suposed to be playing
- */
-void InstrumentShieldController::refresh() {
-
-    unsigned long time = millis(); //saves current timestamp
-
-    for (int i = 0; i < MAXTONES; ++i) {
-
-        if(!tones[i]) continue;
-
-        Tone tone = *tones[i];
-
-
-        Serial.println("AFTER: ::: :: :: : : :: : ");
-        Serial.print("ID: ");
-        Serial.println(tone.ID);
-        Serial.print("NOTE: ");
-        Serial.println(tone.note);
-        Serial.print("VELOCITY: ");
-        Serial.println(tone.velocity);
-
-
-        if(time - tone.timeStamp  > tone.deadlineMillis) { // The tone has been running for to long and should be killed
-
-            endTone(tone.note, tone.velocity);
-
-            noteOff(0, tone.note, tone.velocity);
-
-
-        }
-
-    }
-
-
-}
 
 //Send a MIDI note-on message.  Like pressing a piano key
 //channel ranges from 0-15

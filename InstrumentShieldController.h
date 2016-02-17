@@ -8,27 +8,15 @@
 
 #ifndef SHIELD_LIBRARY_INSTRUMENTSHIELDCONTROLLER_H
 #define SHIELD_LIBRARY_INSTRUMENTSHIELDCONTROLLER_H
+#define GM1 0
+#define GM2 1
+
 
 
 class InstrumentShieldController {
 
 
 public:
-
-    enum ToneBank {
-
-        GM1, GM2
-
-    };
-
-    struct Tone {
-
-        int ID;
-        unsigned long timeStamp;
-        double deadlineMillis;
-        int velocity;
-        int note;
-    };
 
     InstrumentShieldController();
 
@@ -43,28 +31,13 @@ public:
 
     void endTone(byte note, byte velocity);
 
-    void playtone_milis(int miliseconds, byte note, byte velocity);
-
-    void playtone_seconds(int seconds, byte note, byte velocity);
-
     void start();
 
-    void refresh();
 
 private:
     void noteOn(byte channel, byte note, byte attack_velocity);
 
     void noteOff(byte channel, byte note, byte release_velocity);
-
-    bool insertToneInArray(Tone tone);
-
-    int findFirstAvailableIndex();
-
-
-    //  extern const Tone *currentlyPlaying[MAXTONES];
-
-
-
 
 
 };
