@@ -23,7 +23,7 @@ public:
 
     void chooseInstrument(byte instrumentnumber);
 
-    void chooseBank(ToneBank bank);
+    void chooseBank(int bank);
 
     void startTone(byte note, byte velocity);
 
