@@ -1,8 +1,14 @@
 #include <Arduino.h>
 #include "InstrumentShieldController.h"
 
+//FOr choosing instrument bank
+#define GM1 0
+#define GM2 1
 
 InstrumentShieldController controller;
+
+
+
 
 void setup() {
 
