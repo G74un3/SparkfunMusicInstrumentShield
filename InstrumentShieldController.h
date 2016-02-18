@@ -22,11 +22,17 @@ public:
     void talkMIDI(byte cmd, byte data1, byte data2);
 
     void chooseInstrument(byte instrumentnumber);
+    void chooseInstrument(byte instrumentnumber, byte channel);
 
-    void chooseBank(int bank);
 
+
+    void chooseBank(byte bank);
+    void chooseBank(byte bank, byte channel);
+
+    void startTone(byte note, byte velocity, byte channel);
     void startTone(byte note, byte velocity);
 
+    void endTone(byte note, byte velocity, byte channel);
     void endTone(byte note, byte velocity);
 
     void start();

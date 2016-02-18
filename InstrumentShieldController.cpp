@@ -11,10 +11,8 @@
 #include <avr/pgmspace.h>
 
 
-
 #define resetMIDI 4
 #define ledPin 13
-
 
 
 int _ID = 0;
@@ -41,12 +39,20 @@ void InstrumentShieldController::start() {
 
 }
 
+
+void InstrumentShieldController::chooseBank(int bank) {
+
+    chooseBank(bank, 0);
+
+}
+
+
 /**
  * Responsible for choosing the bank of instruments
  * GM1: is the main bank of melodic instruments
  * GM2: is the percussion bank
  */
-void InstrumentShieldController::chooseBank(int bank) {
+void InstrumentShieldController::chooseBank(byte bank, byte channel) {
 
     switch (bank) {
         case 0:
@@ -59,12 +65,26 @@ void InstrumentShieldController::chooseBank(int bank) {
 
 }
 
+
+void InstrumentShieldController::chooseInstrument(byte instrumentnumber) {
+
+    cooseInstrument(instrumentnumber, 0);
+
+}
+
 /**
  * Takes an instrument number from the table in the datasheet and makes the VS1053 choose that instrument
  */
-void InstrumentShieldController::chooseInstrument(byte instrumentnumber) {
+void InstrumentShieldController::chooseInstrument(byte instrumentnumber, byte channel) {
 
     talkMIDI(0xC0, instrumentnumber, 0); //Set instrument number. 0xC0 is a 1 data byte command
+}
+
+
+void InstrumentShieldController::startTone(byte note, byte velocity) {
+
+    startTone(note, velocity, 0);
+
 }
 
 
@@ -72,20 +92,26 @@ void InstrumentShieldController::chooseInstrument(byte instrumentnumber) {
  * 
  *  * @param note from F#-0 (30) to F#-5 (90):
  */
-void InstrumentShieldController::startTone(byte note, byte velocity) {
+void InstrumentShieldController::startTone(byte note, byte velocity, byte channel) {
 
-    noteOn(0, note, velocity);
+    noteOn(channel, note, velocity);
+
+}
+
+
+void InstrumentShieldController::endTone(byte note, byte velocity) {
+
+    endTone(note, velocity, 0);
 
 }
 
 /*
 */
-void InstrumentShieldController::endTone(byte note, byte velocity) {
+void InstrumentShieldController::endTone(byte note, byte velocity, byte channel) {
 
-    noteOff(0, note, velocity);
+    noteOff(channel, note, velocity);
 
 }
-
 
 
 //Send a MIDI note-on message.  Like pressing a piano key
